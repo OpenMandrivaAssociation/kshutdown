@@ -21,6 +21,7 @@ Source12: 	%name-48.png
 URL:		http://kshutdown.sourceforge.net/
 Requires:	kdebase >= 3.3
 BuildRequires:  kdelibs-devel >= 3.3
+BuildRequires:  desktop-file-utils
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 
 %description
@@ -80,7 +81,7 @@ desktop-file-install --vendor="" \
   --add-category="MandrivaLinux-System-Monitoring;System;Monitor;" \
   --add-category="System" \
   --add-category="Monitor" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications/kde $RPM_BUILD_ROOT%{_datadir}/applications/kde/*
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 %find_lang %name
 
