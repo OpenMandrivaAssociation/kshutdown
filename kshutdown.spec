@@ -1,6 +1,6 @@
 %define name	kshutdown
-%define version	0.8.2
-%define release	%mkrel 2
+%define version	1.0
+%define release	%mkrel 1
 %define __libtoolize /bin/true
 %define __cputoolize /bin/true
 
@@ -75,7 +75,12 @@ cp %SOURCE11 %buildroot%_iconsdir/%name.png
 cp %SOURCE12 %buildroot%_liconsdir/%name.png
 
 
-kdedesktop2mdkmenu.pl %name "Applications/Monitoring" %buildroot/%_datadir/applications/kshutdown.desktop %buildroot/%_menudir/%name
+desktop-file-install --vendor="" \
+  --remove-category="Application" \
+  --add-category="MandrivaLinux-System-Monitoring;System;Monitor;" \
+  --add-category="System" \
+  --add-category="Monitor" \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications/kde $RPM_BUILD_ROOT%{_datadir}/applications/kde/*
 
 %find_lang %name
 
@@ -83,19 +88,14 @@ kdedesktop2mdkmenu.pl %name "Applications/Monitoring" %buildroot/%_datadir/appli
 rm -rf %{buildroot}
 
 %post
-%{update_menus}
-%if %mdkversion > 200600
 %update_icon_cache hicolor
 
 %postun
-%{clean_menus}
-%if %mdkversion > 200600
 %clean_icon_cache hicolor
 
 %files -f %name.lang
 %defattr(-,root,root)
 %doc COPYING TODO VERSION AUTHORS README
-%_menudir/%{name}
 %attr(0755,root,root) %{_bindir}/%{name}
 %_iconsdir/%{name}.png
 %_iconsdir/*/%{name}.png
