@@ -1,5 +1,5 @@
 %define name	kshutdown
-%define version	1.0
+%define version	1.0.2
 %define release	%mkrel 1
 %define __libtoolize /bin/true
 %define __cputoolize /bin/true
@@ -9,16 +9,12 @@ Version:	%{version}
 Release:	%{release}
 Summary:        KShutDown is an advanced shut down utility for KDE
 Summary(fr):    KShutDown est un outils avancé de gestion de l'extinction  
-License:        GPL
+License:        GPLv2+
 Group:		Graphical desktop/KDE
 Source:	        http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2	
 Source10: 	%name-16.png
 Source11: 	%name-32.png
 Source12: 	%name-48.png
-
-
-
-URL:		http://kshutdown.sourceforge.net/
 Requires:	kdebase >= 3.3
 BuildRequires:  kdelibs-devel >= 3.3
 BuildRequires:  desktop-file-utils
@@ -41,25 +37,10 @@ Features:
 - And more...
 
 %prep
-rm -rf %{buildroot}
-
 %setup -q -n %{name}-%{version}
 
-
 %build
-
-export QTDIR=%_prefix/lib/qt3
-export KDEDIR=%_prefix
-
-export LD_LIBRARY_PATH=$QTDIR/%_lib:$KDEDIR/%_lib:$LD_LIBRARY_PATH
-export PATH=$QTDIR/bin:$KDEDIR/bin:$PATH
-
-# Search for qt/kde libraries in the right directories (avoid patch)
-# NOTE: please don't regenerate configure scripts below
-perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt)_(libdirs|libraries)=/" configure
-
-%configure --disable-rpath
-
+%configure2_5x --disable-rpath
 %make
 
 %install
@@ -78,12 +59,11 @@ cp %SOURCE12 %buildroot%_liconsdir/%name.png
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
-  --add-category="MandrivaLinux-System-Monitoring;System;Monitor;" \
   --add-category="System" \
   --add-category="Monitor" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
-%find_lang %name
+%find_lang %name --with-html
 
 %clean
 rm -rf %{buildroot}
@@ -104,23 +84,5 @@ rm -rf %{buildroot}
 %_datadir/applications/kshutdown.desktop
 %_datadir/apps/kconf_update/%{name}.upd
 %_datadir/apps/kicker/applets/kshutdownlockout.desktop
-%_datadir/apps/%{name}/*
-
-%dir %_docdir/HTML/en/kshutdown
-%doc %_docdir/HTML/en/kshutdown/common
-%doc %_docdir/HTML/en/kshutdown/index.cache.bz2
-%doc %_docdir/HTML/en/kshutdown/index.docbook
-%doc %_docdir/HTML/en/kshutdown/mainwindow.png
-
-%dir %_docdir/HTML/de/kshutdown
-%doc %_docdir/HTML/de/kshutdown/common
-%doc %_docdir/HTML/de/kshutdown/index.cache.bz2
-%doc %_docdir/HTML/de/kshutdown/index.docbook
-%doc %_docdir/HTML/de/kshutdown/mainwindow.png
-
-
-%_libdir/kde3/kshutdownlockout_panelapplet.la
-%_libdir/kde3/kshutdownlockout_panelapplet.so
-
-
-
+%_datadir/apps/%{name}
+%_libdir/kde3/*
