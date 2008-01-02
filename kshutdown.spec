@@ -18,6 +18,7 @@ Source12: 	%name-48.png
 Requires:	kdebase >= 3.3
 BuildRequires:  kdelibs-devel >= 3.3
 BuildRequires:  desktop-file-utils
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 
 %description
 KShutDown is an advanced shut down utility for KDE.
