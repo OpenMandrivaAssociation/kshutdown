@@ -7,7 +7,7 @@
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-Summary:        KShutDown is an advanced shut down utility for KDE
+Summary:        Advanced shut down utility for KDE
 Summary(fr):    KShutDown est un outils avancé de gestion de l'extinction  
 License:        GPLv2+
 Group:		Graphical desktop/KDE
