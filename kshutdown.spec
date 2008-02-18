@@ -1,6 +1,6 @@
 %define name	kshutdown
 %define version	1.0.2
-%define release	%mkrel 1
+%define release	%mkrel 2
 %define __libtoolize /bin/true
 %define __cputoolize /bin/true
 
