@@ -1,8 +1,7 @@
 %define name	kshutdown
-%define version	1.0.2
-%define release	%mkrel 2
-%define __libtoolize /bin/true
-%define __cputoolize /bin/true
+%define version	2.0
+%define betaver beta1
+%define release	%mkrel -c %betaver 1
 
 Name:		%{name}
 Version:	%{version}
@@ -11,12 +10,10 @@ Summary:        Advanced shut down utility for KDE
 Summary(fr):    KShutDown est un outils avancé de gestion de l'extinction  
 License:        GPLv2+
 Group:		Graphical desktop/KDE
-Source:	        http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}.tar.bz2	
-Source10: 	%name-16.png
-Source11: 	%name-32.png
-Source12: 	%name-48.png
-Requires:	kdebase >= 3.3
-BuildRequires:  kdelibs-devel >= 3.3
+Source:	        http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}-%{betaver}.tar.bz2
+Patch0:		kshutdown-2.0-drop-actions.patch
+Requires:	kdebase4-workspace
+BuildRequires:  kdebase4-workspace-devel
 BuildRequires:  desktop-file-utils
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 
@@ -37,31 +34,23 @@ Features:
 - And more...
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %name
 
 %build
-%configure2_5x --disable-rpath
+%cmake_kde4
 %make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p %buildroot{%_menudir,%_miconsdir,%_iconsdir,%_liconsdir}
-mkdir -p %buildroot%_datadir
-mkdir -p %buildroot%_datadir/apps
-mkdir -p %buildroot%_datadir/apps/kconf_update/
-
-
+cd build
 %makeinstall_std
-cp %SOURCE10 %buildroot%_miconsdir/%name.png
-cp %SOURCE11 %buildroot%_iconsdir/%name.png
-cp %SOURCE12 %buildroot%_liconsdir/%name.png
-
+cd -
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
   --add-category="System" \
   --add-category="Monitor" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications/kde4 $RPM_BUILD_ROOT%{_datadir}/applications/kde4/*
 
 %find_lang %name --with-html
 
@@ -76,13 +65,8 @@ rm -rf %{buildroot}
 
 %files -f %name.lang
 %defattr(-,root,root)
-%doc COPYING TODO VERSION AUTHORS README
-%attr(0755,root,root) %{_bindir}/%{name}
-%_iconsdir/%{name}.png
-%_iconsdir/*/%{name}.png
-%_iconsdir/hicolor/*/apps/%{name}.png
-%_datadir/applications/kshutdown.desktop
-%_datadir/apps/kconf_update/%{name}.upd
-%_datadir/apps/kicker/applets/kshutdownlockout.desktop
-%_datadir/apps/%{name}
-%_libdir/kde3/*
+%doc TODO ChangeLog README.html
+%attr(0755,root,root) %{_kde_bindir}/%{name}
+%_kde_iconsdir/*/*/*/*
+%_kde_datadir/applications/kde4/kshutdown.desktop
+%_kde_datadir/apps/%{name}
