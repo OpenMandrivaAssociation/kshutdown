@@ -1,7 +1,7 @@
 %define name	kshutdown
 %define version	2.0
-%define betaver beta1
-%define release	%mkrel -c %betaver 2
+%define betaver beta2
+%define release	%mkrel -c %betaver 1
 
 Name:		%{name}
 Version:	%{version}
@@ -10,7 +10,7 @@ Summary:        Advanced shut down utility for KDE
 Summary(fr):    KShutDown est un outils avancé de gestion de l'extinction  
 License:        GPLv2+
 Group:		Graphical desktop/KDE
-Source:	        http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{version}-%{betaver}.tar.bz2
+Source:	        http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-source-%{version}%{betaver}.zip
 Patch0:		kshutdown-2.0-drop-actions.patch
 Requires:	kdebase4-workspace
 BuildRequires:  kdebase4-workspace-devel
@@ -34,7 +34,7 @@ Features:
 - And more...
 
 %prep
-%setup -q -n %name
+%setup -q -n %name-%version%betaver
 
 %build
 %cmake_kde4
