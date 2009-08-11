@@ -1,6 +1,6 @@
 %define name	kshutdown
 %define version	2.0
-%define betaver beta6
+%define betaver beta7
 %define release	%mkrel -c %betaver 1
 
 Name:		%{name}
