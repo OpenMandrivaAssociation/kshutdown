@@ -1,20 +1,16 @@
-%define name	kshutdown
-%define version	2.0
-%define release	%mkrel 1
+%define prerel beta4
 
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-Summary:        Advanced shut down utility for KDE
-Summary(fr):    KShutDown est un outils avancé de gestion de l'extinction  
-License:        GPLv2+
+Name:		kshutdown
+Version:	3.0
+Release:	0.%{prerel}.1
+Summary:	Advanced shut down utility for KDE
+License:	GPLv2+
 Group:		Graphical desktop/KDE
-Source:	        http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-source-%{version}.zip
-Patch0:		kshutdown-2.0-drop-actions.patch
+URL:		http://kshutdown.sourceforge.net/
+Source0:	http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-source-%{version}%{prerel}.zip
 Requires:	kdebase4-workspace
-BuildRequires:  kdebase4-workspace-devel
-BuildRequires:  desktop-file-utils
-BuildRoot:	%{_tmppath}/%{name}-buildroot
+BuildRequires:	kdebase4-workspace-devel
+BuildRequires:	desktop-file-utils
 
 %description
 KShutDown is an advanced shut down utility for KDE.
@@ -32,40 +28,32 @@ Features:
 - Kiosk support
 - And more...
 
+%files -f %{name}.lang
+%doc TODO ChangeLog README.html
+%attr(0755,root,root) %{_kde_bindir}/%{name}
+%{_kde_iconsdir}/hicolor/*/apps/kshutdown.png
+%{_kde_iconsdir}/hicolor/*/apps/kshutdown.svgz
+%{_kde_applicationsdir}/%{name}.desktop
+%{_kde_appsdir}/%{name}
+
+#------------------------------------------------------------------------------
+
 %prep
-%setup -q -n %name-%version
+%setup -q -n %{name}-%{version}%{prerel}
 
 %build
 %cmake_kde4
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
-cd build
-%makeinstall_std
-cd -
+%makeinstall_std -C build
 
 desktop-file-install --vendor="" \
-  --remove-category="Application" \
-  --add-category="System" \
-  --add-category="Monitor" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications/kde4 $RPM_BUILD_ROOT%{_datadir}/applications/kde4/*
+--remove-category="Application" \
+--add-category="KDE" \
+--add-category="System" \
+--add-category="Monitor" \
+--dir %{buildroot}/%{_datadir}/applications/kde4 %{buildroot}/%{_datadir}/applications/kde4/*
 
-%find_lang %name --with-html
+%find_lang %{name} --with-html
 
-%clean
-rm -rf %{buildroot}
-
-%post
-%update_icon_cache hicolor
-
-%postun
-%clean_icon_cache hicolor
-
-%files -f %name.lang
-%defattr(-,root,root)
-%doc TODO ChangeLog README.html
-%attr(0755,root,root) %{_kde_bindir}/%{name}
-%_kde_iconsdir/*/*/*/*
-%_kde_datadir/applications/kde4/kshutdown.desktop
-%_kde_datadir/apps/%{name}
