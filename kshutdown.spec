@@ -6,7 +6,7 @@ Release:	0.%{prerel}.1
 Summary:	Advanced shut down utility for KDE
 License:	GPLv2+
 Group:		Graphical desktop/KDE
-URL:		http://kshutdown.sourceforge.net/
+URL:		https://kshutdown.sourceforge.net/
 Source0:	http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-source-%{version}%{prerel}.zip
 Requires:	kdebase4-workspace
 BuildRequires:	kdebase4-workspace-devel
