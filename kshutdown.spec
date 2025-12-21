@@ -9,6 +9,7 @@ Group:		Graphical desktop/KDE
 URL:		https://kshutdown.sourceforge.net/
 Source0:	http://ovh.dl.sourceforge.net/sourceforge/%{name}/%{name}-source-%{version}%{prerel}.zip
 Requires:	kdebase4-workspace
+BuildRequires:	make
 BuildRequires:	kdebase4-workspace-devel
 BuildRequires:	desktop-file-utils
 
